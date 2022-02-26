@@ -140,6 +140,8 @@ class OptionsState extends MusicBeatState
 		}
 		changeSelection();
 
+	        addVirtualPad(UP_DOWN, A_B);
+
 		super.create();
 	}
 
@@ -169,6 +171,8 @@ class OptionsState extends MusicBeatState
 			for (item in grpOptions.members) {
 				item.alpha = 0;
 			}
+
+                        _virtualpad.alpha = 0;
 
 			switch(options[curSelected]) {
 				case 'Notes':
@@ -274,6 +278,8 @@ class NotesSubstate extends MusicBeatSubstate
 		hsvText = new Alphabet(0, 0, "Hue    Saturation  Brightness", false, false, 0, 0.65);
 		add(hsvText);
 		changeSelection();
+
+	        addVirtualPad(FULL, A_B_C);
 	}
 
 	var changingNote:Bool = false;
@@ -287,7 +293,7 @@ class NotesSubstate extends MusicBeatSubstate
 				} else if(controls.UI_RIGHT_P) {
 					updateValue(1);
 					FlxG.sound.play(Paths.sound('scrollMenu'));
-				} else if(controls.RESET) {
+				} else if(controls.RESET #if android || _virtualpad.buttonC.justPressed #end) {
 					resetValue(curSelected, typeSelected);
 					FlxG.sound.play(Paths.sound('scrollMenu'));
 				}
@@ -328,7 +334,7 @@ class NotesSubstate extends MusicBeatSubstate
 				changeType(1);
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
-			if(controls.RESET) {
+			if(controls.RESET #if android || _virtualpad.buttonC.justPressed #end) {
 				for (i in 0...3) {
 					resetValue(curSelected, i);
 				}
@@ -586,6 +592,8 @@ class ControlsSubstate extends MusicBeatSubstate {
 			grptxt.add(text);
 		}
 		changeSelection();
+
+	        addVirtualPad(FULL, A_B);
 	}
 
 	var leaving:Bool = false;
@@ -976,6 +984,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 		}
 		changeSelection();
 		reloadValues();
+
+	        addVirtualPad(FULL, A_B);
 	}
 
 	var nextAccept:Int = 5;
