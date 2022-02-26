@@ -299,6 +299,9 @@ class CreditsState extends MusicBeatState
 				bop();
 			},0);
 		changeSelection();
+
+	        addVirtualPad(LEFT_RIGHT, B);
+
 		super.create();
 	}
 
