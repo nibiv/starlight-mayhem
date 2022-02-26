@@ -202,8 +202,21 @@ class Cutsceneshit extends FlxSpriteGroup
 		}*/
 
 		skip = ['bg', 'voice','showbox','cm'];
+
+		#if android
+	        var justTouched:Bool = false;
+
+	        for (touch in FlxG.touches.list)
+	        {
+		        justTouched = false;
+
+		        if (touch.justPressed){
+			        justTouched = true;
+		        }
+	        }
+	        #end
 		
-		if (FlxG.keys.justPressed.ANY || (dialogueList.length > 0 && skip.contains(curCharacter))  && dialogueStarted == true)
+		if (FlxG.keys.justPressed.ANY #if android || justTouched #end || (dialogueList.length > 0 && skip.contains(curCharacter))  && dialogueStarted == true)
 		{
 			remove(dialogue);
 
