@@ -55,30 +55,29 @@ class Main extends Sprite
 	public static var persistentAssets:Array<FlxGraphic> = [];
 
 	public static function dumpCache()
+	{
+		if (Main.dumping)
 		{
-			if (Main.dumping)
+			trace('deleted cacheeeeeeeeeeee');
+			// credits to shubs and haya for this code
+			@:privateAccess
+			for (key in FlxG.bitmap._cache.keys())
 			{
-				trace('deleted cacheeeeeeeeeeee');
-				// credits to shubs and haya for this code
-				@:privateAccess
-				for (key in FlxG.bitmap._cache.keys())
+			        trace(key);
+				var obj = FlxG.bitmap._cache.get(key);
+				if (obj != null && !persistentAssets.contains(obj))
 				{
-					trace(key);
-					var obj = FlxG.bitmap._cache.get(key);
-					if (obj != null && !persistentAssets.contains(obj))
-					{
-						Assets.cache.removeBitmapData(key);
-						FlxG.bitmap._cache.remove(key);
-						obj.destroy();
-					}
+					Assets.cache.removeBitmapData(key);
+					FlxG.bitmap._cache.remove(key);
+					obj.destroy();
 				}
-	
-				GPUFunctions.disposeAllTextures();
-				Assets.cache.clear("songs");
-				System.gc();
 			}
-			Main.dumping = false;
+
+			Assets.cache.clear("songs");
+			System.gc();
 		}
+		Main.dumping = false;
+	}
 
 	public static var dumping:Bool = false;
 
