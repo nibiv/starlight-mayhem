@@ -73,10 +73,13 @@ class MusicBeatState extends FlxUIState
 		FlxG.cameras.add(camcontrol);
 		camcontrol.bgColor.alpha = 0;
 		androidc.cameras = [camcontrol];
-
 		androidc.visible = false;
-
 		add(androidc);
+
+		_virtualpad = new FlxVirtualPad(NONE, A);
+		_virtualpad.cameras = [camcontrol];
+		_virtualpad.visible = false;
+		add(_virtualpad);
 		#end
 	}
 
