@@ -1879,6 +1879,7 @@ class PlayState extends MusicBeatState
 		if(ret != FunkinLua.Function_Stop) {
 	                #if android
 	                androidc.visible = true;
+                        _virtualpad.visible = true;
 	                #end
 			generateStaticArrows(0);
 			generateStaticArrows(1);
@@ -2700,10 +2701,10 @@ songSpeed = SONG.speed;
 			if (focused)
 				FlxG.camera.zoom = defaultCamZoom + 0.1;
 
-		if(FlxG.keys.justPressed.SPACE && burstnumber == 225 && !lmaoloser)
-			{
-				dotheburst();
-			}
+		if(FlxG.keys.justPressed.SPACE #if android || _virtualpad.buttonA.justPressed #end && burstnumber == 225 && !lmaoloser)
+		{
+			dotheburst();
+		}
 
 		#if debug
 		/*if(FlxG.keys.justPressed.SPACE)
@@ -4263,6 +4264,7 @@ songSpeed = SONG.speed;
 			{
 	                        #if android
 	                        androidc.visible = false;
+                                _virtualpad.visible = false;
 	                        #end
 				timeBarBG.visible = false;
 				timeBar.visible = false;
@@ -4310,6 +4312,7 @@ songSpeed = SONG.speed;
 
 	        #if android
 	        androidc.visible = false;
+                _virtualpad.visible = false;
 	        #end		
 		timeBarBG.visible = false;
 		timeBar.visible = false;
