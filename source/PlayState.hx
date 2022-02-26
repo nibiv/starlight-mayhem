@@ -1659,7 +1659,19 @@ class PlayState extends MusicBeatState
 					FlxTween.tween(blackShit, {alpha: 0.5}, 1.5, {ease: FlxEase.expoOut});
 					var pressed:Bool = false;
 					new FlxTimer().start(0.000001, function(timer) {
-						if (!pressed && FlxG.keys.justPressed.ANY && canpress)
+		                                #if android
+	                                        var justTouched:Bool = false;
+
+	                                        for (touch in FlxG.touches.list)
+	                                        {
+		                                        justTouched = false;
+
+		                                        if (touch.justPressed){
+			                                        justTouched = true;
+		                                        }
+	                                        }
+	                                        #end                                               
+						if (!pressed && FlxG.keys.justPressed.ANY #if android || justTouched #end && canpress)
 							{
 								pressed = true;
 								FlxTween.tween(burstimg, {y: burstimg.y - 1000}, 1.5, {ease: FlxEase.expoOut});
