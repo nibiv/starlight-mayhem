@@ -1654,7 +1654,7 @@ class PlayState extends MusicBeatState
 					FlxTween.tween(burstimg, {y: burstimg.y - 1000}, 1.5, {ease: FlxEase.expoOut,
 						onComplete: function(twn:FlxTween)
 						{
-							canpress=true;
+							canpress = true;
 						}
 					});
 					FlxTween.tween(blackShit, {alpha: 0.5}, 1.5, {ease: FlxEase.expoOut});
@@ -1662,27 +1662,28 @@ class PlayState extends MusicBeatState
 					new FlxTimer().start(0.000001, function(timer) {
                                                 _virtualpad.visible = true;                                               
 						if (!pressed && FlxG.keys.justPressed.ANY #if android || _virtualpad.buttonA.justPressed #end && canpress)
+						{	
+                                                        _virtualpad.visible = false;
+				                        FlxTween.tween(burstimg, {y: burstimg.y - 1000}, 1.5, {ease: FlxEase.expoOut});
+							FlxTween.tween(blackShit, {alpha: 0},1.5, {ease: FlxEase.expoOut});
+							new FlxTimer().start(1.5, function(tmr:FlxTimer)
 							{
-								pressed = true;
-                                                                _virtualpad.visible = false;
-								FlxTween.tween(burstimg, {y: burstimg.y - 1000}, 1.5, {ease: FlxEase.expoOut});
-								FlxTween.tween(blackShit, {alpha: 0},1.5, {ease: FlxEase.expoOut});
-								new FlxTimer().start(1.5, function(tmr:FlxTimer)
-									{
-										dad.playAnim('INTRO',true);
-										FlxG.sound.play(Paths.sound('woosh'));
-										remove(burstimg);
-										remove(blackShit);
-										dad.animation.finishCallback = function(INTRO)
-											{
-												startCountdown();
-											}
-									});
-							}
-						},0);
+								dad.playAnim('INTRO',true);
+								FlxG.sound.play(Paths.sound('woosh'));
+								remove(burstimg);
+								remove(blackShit);
+								dad.animation.finishCallback = function(INTRO)
+								{
+					                                pressed = true;
+                                                                        canpress = false;
+								        startCountdown();
+								}
+							});
+						}
+					},0);
 				default:
 					startCountdown();
-					}
+			}
 	}
 
 	public function addTextToDebug(text:String) {
