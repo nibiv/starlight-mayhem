@@ -1659,11 +1659,22 @@ class PlayState extends MusicBeatState
 					});
 					FlxTween.tween(blackShit, {alpha: 0.5}, 1.5, {ease: FlxEase.expoOut});
 		                        var pressed:Bool = false;					
-					new FlxTimer().start(0.000001, function(timer) {
-                                                _virtualpad.visible = true;                                               
-						if (!pressed && FlxG.keys.justPressed.ANY #if android || _virtualpad.buttonA.justPressed #end && canpress)
+					new FlxTimer().start(0.000001, function(timer) { 
+		                                #if android
+	                                        var justTouched:Bool = false;
+
+	                                        for (touch in FlxG.touches.list){
+		                                        justTouched = false;
+		                                        if (touch.justPressed){
+			                                        justTouched = true;
+		                                        }
+	                                        }
+	                                        #end
+                                              
+						if (!pressed && FlxG.keys.justPressed.ANY #if android || justTouched #end && canpress)
 						{	
-                                                        _virtualpad.visible = false;
+					                pressed = true;
+                                                        canpress = false;
 				                        FlxTween.tween(burstimg, {y: burstimg.y - 1000}, 1.5, {ease: FlxEase.expoOut});
 							FlxTween.tween(blackShit, {alpha: 0},1.5, {ease: FlxEase.expoOut});
 							new FlxTimer().start(1.5, function(tmr:FlxTimer)
@@ -1674,8 +1685,6 @@ class PlayState extends MusicBeatState
 								remove(blackShit);
 								dad.animation.finishCallback = function(INTRO)
 								{
-					                                pressed = true;
-                                                                        canpress = false;
 								        startCountdown();
 								}
 							});
